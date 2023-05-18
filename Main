@@ -10,7 +10,7 @@ Servo motorServo;
 
 int sensorRead;
 int distance;
-int angle;
+int angle = 50;//angulo reposo
 
 void setup(){
 	pinMode(echoPin, INPUT);
@@ -19,6 +19,7 @@ void setup(){
 	motorServo.attach(servoPin);
 	//ServoPin->motorServo
 	
+	motorServo.Write(angle);
 	Serial.begin(9600);
 }
 
