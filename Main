@@ -11,6 +11,21 @@ Servo motorServo;
 int sensorRead;
 int distance;
 int angle = 50;//angulo reposo
+int setPoint = 10;
+
+double error;
+double diffError = 0;
+double sumError = 0;
+
+double P;
+double I;
+double D;
+
+int PID;
+
+double kP = 0;
+double kI = 0;
+double kD = 0;
 
 void setup(){
 	pinMode(echoPin, INPUT);
@@ -24,24 +39,39 @@ void setup(){
 }
 
 void loop(){
-	//DistanceRead();
-	
+	LookoutPID();
+	//Serial.println(distance);
+	//Serial.println(PID);
+	//Serial.println(error);
+}
+
+int DistanceRead(){
+	//lectura del sensor
 	digitalWrite(triggerPin, HIGH);
 	delayMicroseconds(10);
 	sensorRead = pulseIn(echoPin, HIGH);
 	delay(25);
 	digitalWrite(triggerPin, LOW);
 	
-	distance = ConvertCm(sensorRead);
-	
-	angle = map(distance, 5, 25, 180, 0);
-	//primer rango: dostancia cm, 2do: angulo servo
-	//mantener 2do invertido¿
-	motorServo.write(angle);
-}
-
-int ConvertCm(int time){
-	return 17000 * time;
+	//conversion a cm
+	return 17000 * sensorRead;
 	//340k-> v sonido, d=vt, /2 pq da tiempo d ida y regreso
 }
-//void DistanceRead(){}
+
+void LookoutPID(){
+	distance = DistanceRead();
+	
+	error = setPoint - distance;
+	
+	P = error * kP;
+	I = sumError * kI;
+	D = diffError * kD;
+	PID = P + I + D;
+	
+	sumError += error;
+	diffError = error - diffError;
+	//buscar forma d abreviarlo
+	
+	angle = angle = map((int)PID, 5, 25, 180, 0);
+	//checar super bien primero estos rangos
+}
