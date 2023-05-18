@@ -4,15 +4,13 @@
 Servo motorServo;
 //convierte al servo en un objeto o algo asi
 
-#define servoPin = 9;
-#define ultrasoundSensor = 14;
-//vamos a usar el analogico no¿
+#define servoPin 9;
+#define ultrasoundSensor 14;
+#define echoPin 11;
+#define triggerPin 12;
 
 int sensorRead;
 int angle;
-
-int echo;
-
 
 void setup(){
 	motorServo.attach(servoPin);
