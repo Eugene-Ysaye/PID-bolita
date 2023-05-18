@@ -38,8 +38,8 @@ void loop(){
 	motorServo.write(angle);
 }
 
-double ConvertCm(int time){
-	double distanceCm = 17000 * time;
+int ConvertCm(int time){
+	return 17000 * time;
 	//340k-> v sonido, d=vt, /2 pq da tiempo d ida y regreso
 }
 //void DistanceRead(){
