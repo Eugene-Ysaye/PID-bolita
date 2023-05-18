@@ -33,8 +33,9 @@ void loop(){
 	
 	distance = ConvertCm(sensorRead);
 	
-	angle = map(distance, 5, 25, 0, 180);
+	angle = map(distance, 5, 25, 180, 0);
 	//primer rango: dostancia cm, 2do: angulo servo
+	//mantener 2do invertido¿
 	motorServo.write(angle);
 }
 
