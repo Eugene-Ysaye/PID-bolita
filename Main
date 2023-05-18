@@ -63,14 +63,17 @@ void LookoutPID(){
 	
 	error = setPoint - distance;
 	
+	diffError = error - diffError;
+	//buscar forma d abreviarlo
+	
 	P = error * kP;
 	I = sumError * kI;
 	D = diffError * kD;
 	PID = P + I + D;
 	
 	sumError += error;
-	diffError = error - diffError;
-	//buscar forma d abreviarlo
+	diffError = error;
+	
 	
 	angle = angle = map((int)PID, 5, 25, 180, 0);
 	//checar super bien primero estos rangos
