@@ -28,12 +28,20 @@ void loop(){
 	digitalWrite(triggerPin, HIGH);
 	delayMicroseconds(10);
 	sensorRead = pulseIn(echoPin, HIGH);
+	delay(25);
+	digitalWrite(triggerPin, LOW);
 	
-	angle = map(sensorRead, 0, 255, 0, 180);
-	//creo era 0 - 255¿¿¿
+	distance = ConvertCm(sensorRead);
+	
+	angle = map(distance, 5, 25, 0, 180);
+	//primer rango: dostancia cm, 2do: angulo servo
 	motorServo.write(angle);
 }
 
+double ConvertCm(int time){
+	double distanceCm = 17000 * time;
+	//340k-> v sonido, d=vt, /2 pq da tiempo d ida y regreso
+}
 //void DistanceRead(){
 	
 }
