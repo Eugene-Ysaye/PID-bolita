@@ -1,3 +1,4 @@
+//falta la parte d sensores xd
 #include <Servo.h>
 
 Servo motorServo;
@@ -12,6 +13,7 @@ int angle;
 
 int echo;
 
+
 void setup(){
 	motorServo.attach(servoPin);
 	//ServoPin->motor
@@ -20,6 +22,7 @@ void setup(){
 
 void loop(){
 	sensorRead = analogRead(echo);
-  angle = map(sensorRead, 0, 255, 0, 180)
-  //creo era 0 - 255¿¿¿
+	angle = map(sensorRead, 0, 255, 0, 180);
+	//creo era 0 - 255¿¿¿
+	motorServo.write(angle);
 }
