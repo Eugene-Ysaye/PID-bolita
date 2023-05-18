@@ -42,6 +42,4 @@ int ConvertCm(int time){
 	return 17000 * time;
 	//340k-> v sonido, d=vt, /2 pq da tiempo d ida y regreso
 }
-//void DistanceRead(){
-	
-}
+//void DistanceRead(){}
