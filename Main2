@@ -1,0 +1,83 @@
+#include <Servo.h>
+
+#define echoPin 11
+#define triggerPin 12
+
+#define servoPin 14
+
+Servo motorServo;
+//convierte al servo en un objeto
+
+int sensorRead;
+double distance;
+double tolerance = 5.0;
+int angle = 50;//angulo reposo
+double setPoint = 13.5;
+
+double error;
+double diffError = 0;
+double sumError = 0;
+
+double P;
+double I;
+double D;
+
+int PID;
+
+double kP = 0;
+double kI = 0;
+double kD = 0;
+
+void setup(){
+	pinMode(echoPin, INPUT);
+	pinMode(triggerPin, OUTPUT);
+	
+	motorServo.attach(servoPin);
+	//ServoPin->motorServo
+	
+	motorServo.write(angle);
+	Serial.begin(9600);
+}
+
+void loop(){
+	LookoutPID();
+	//Serial.println(distance);
+	//Serial.println(PID);
+	Serial.println(distance);
+}
+
+float DistanceRead()
+{
+  digitalWrite(triggerPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(triggerPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(triggerPin, LOW);
+
+  sensorRead = pulseIn(echoPin, HIGH);
+
+  return sensorRead * .01732;
+  //346.4m/s es la velocidad del sonido
+}
+
+void LookoutPID(){
+	distance = DistanceRead() - tolerance;
+	
+	error = setPoint - distance;
+	
+	diffError = error - diffError;
+	//buscar forma d abreviarlo
+  sumError += error;
+	
+	P = error * kP;
+	I = sumError * kI;
+	D = diffError * kD;
+	PID = P + I + D;
+	
+	diffError = error;
+	
+	
+	angle = map((int)distance, 0, 30, 0, 180);
+  motorServo.write(angle);
+	//checar super bien primero estos rangos
+}
